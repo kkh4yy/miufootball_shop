@@ -8,4 +8,4 @@ def show_main(request):
         'name': '2406428876 - Khayra Tazkiya',
         'class_name': 'PBP D'
     }
-    return render(request, 'main/main.html', context)
+    return render(request, 'main.html', context)
