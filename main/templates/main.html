@@ -4,7 +4,7 @@
     <title>MiuFootball Shop</title>
     <style>
         body {
-          font-family: Comic Sans, Helvetica, sans-serif; 
+          font-family:  Comic Sans, Helvetica, sans-serif; 
         }
         h1 {
           font-family: "Courier New", monospace; 
@@ -16,6 +16,19 @@
         p {
           font-size: 19px; 
         }
+        /* button style adjusment */
+        .btn {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #FF69B4;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+          margin-top: 20px;
+        }
+        .btn:hover {
+          background-color: #FF1493;
+        }
       </style>
   </head>
   <body>
@@ -23,5 +36,7 @@
     <h5>Gear up for glory—kits, boots, and pro training gear in one place.</h5>
     <p>Made by: {{ name }}</p>
     <p>Class: {{ class_name }}</p>
+    <!-- see product detail button -->
+    <a href="{% url 'main:product_list' %}" class="btn">See Products</a>
   </body>
 </html>

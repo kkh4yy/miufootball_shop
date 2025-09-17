@@ -1,3 +1,4 @@
+TUGAS 1
 Membuat sebuah README.md yang berisi tautan menuju aplikasi PWS yang sudah di-deploy, serta jawaban dari beberapa pertanyaan berikut.
 - https://khayra-tazkiya-miufootballshop.pbp.cs.ui.ac.id/
 
@@ -223,3 +224,103 @@ Jawaban:
 
 6. Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
 Jawaban: belum ada
+
+---------------------------------------------------------------------------------------------------
+TUGAS 2
+1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+    Memisahkan lapisan sistem (decoupling) sehingga frontend dan backend dapat berkembang mandiri tanpa saling mengganggu.
+
+    Memungkinkan interoperabilitas dengan klien dan layanan lain (web, mobile, otomatisasi, analitik) melalui format baku yang mudah diproses mesin.
+
+    Meningkatkan efisiensi: muatan respons terstruktur mudah di-cache, difilter, dan dipaginasi.
+
+    Mendukung skalabilitas dan pemakaian ulang: satu sumber data dapat dilayani ke banyak konsumen.
+
+    Memperkuat kendali dan keamanan: pembatasan kolom, otorisasi, pembatasan laju, serta pencatatan dapat dilakukan pada lapisan API.
+
+2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+   JSON
+
+    Ringkas dan mudah dibaca, langsung memetakan objek dan larik pada banyak bahasa pemrograman, serta dekat dengan ekosistem JavaScript.
+
+    Umumnya lebih cepat diuraikan (parsing) dan ukuran muatannya lebih kecil untuk kebutuhan API modern.
+
+    XML
+
+    Kaya fitur (namespace, atribut, serta validasi skema/XSD) dan sesuai untuk dokumen kompleks atau integrasi bergaya enterprise.
+
+    Kesimpulan
+    Tidak ada yang mutlak lebih baik; pemilihan bergantung konteks. JSON lebih populer karena kesederhanaan, efisiensi muatan, dan dukungan luas pada pengembangan API web. 
+
+3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+    -Menjalankan seluruh validasi bidang dan tingkat formulir (termasuk metode clean_<field>() dan clean()).
+
+    -Jika valid, menyediakan cleaned_data yang telah dibersihkan dan bertipe benar; pada ModelForm dapat langsung disimpan melalui form.save().
+
+    -Menjaga integritas dan keamanan data di sisi server, tidak hanya mengandalkan validasi di sisi klien.
+    Contoh pola dasar:
+    def create_product(request):
+    if request.method == "POST":
+    form = ProductForm(request.POST)
+    if form.is_valid():
+    obj = form.save()
+    return redirect("product_detail", pk=obj.pk)
+    else:
+    form = ProductForm()
+    return render(request, "form.html", {"form": form})
+
+
+4.  Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+
+    csrf_token melindungi dari serangan Cross-Site Request Forgery (CSRF), yaitu kondisi ketika pengguna yang sedang masuk (login) digiring untuk mengirim permintaan sah ke situs Anda dari domain lain tanpa sepengetahuannya.
+
+    Tanpa csrf_token, penyerang dapat membuat halaman yang secara otomatis mengirim formulir ke aplikasi Anda menggunakan kuki sesi korban, sehingga tindakan penting (mengubah data, membuat transaksi, menghapus entri) dapat terjadi tanpa persetujuan.
+
+    Token acak yang disisipkan pada formulir dan diverifikasi server memastikan setiap permintaan perubahan keadaan hanya valid jika berasal dari halaman sah milik aplikasi.
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+    1. Menyiapkan model dan formulir
+
+    Pastikan model telah tersedia; buat ModelForm untuk memudahkan pembuatan entitas baru dan memastikan validasi terpusat.
+
+    2. Menulis views halaman
+
+    Daftar: menampilkan seluruh entitas dalam tabel serta menyediakan tombol tambah dan detail.
+
+    Tambah: menampilkan formulir pada GET, memvalidasi dengan is_valid() pada POST, lalu menyimpan dan mengalihkan ke halaman detail.
+
+    Detail: menampilkan informasi lengkap satu entitas.
+
+    3. Menulis views data delivery
+
+    Menyediakan endpoint JSON dan XML untuk seluruh data.
+
+    Menyediakan endpoint JSON dan XML berdasarkan id dengan tetap mengembalikan QuerySet agar kompatibel dengan serializer Django.
+
+    4.  Menyusun rute (URL routing)
+
+    Menetapkan jalur untuk daftar, tambah, detail, serta empat endpoint data delivery (JSON/XML untuk semua dan per id).
+
+    Mengikutsertakan (include) berkas urls aplikasi pada urls proyek.
+
+    5. Menyusun templat
+
+    Membuat templat dasar (layout), templat daftar (tabel dan tombol), templat formulir (dengan csrf_token), dan templat detail.
+
+    6. Validasi dan peningkatan kegunaan
+
+    Memastikan impor yang benar, penerapan csrf_token, serta, bila perlu, pemakaian penataan angka/harga melalui pustaka bawaan Django.
+
+    7. Pengujian
+
+    Menguji alur tambah–detail–daftar di peramban, lalu mengakses keempat endpoint data delivery.
+
+    Menggunakan Postman untuk memverifikasi kode status dan isi respons, serta mendokumentasikannya.
+
+    8. Dokumentasi dan distribusi
+
+    Menambahkan uraian teknis dan jawaban pertanyaan pada berkas README, lalu melakukan komit dan dorong (push) ke repositori.
+
+6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
+belum ada 
