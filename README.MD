@@ -446,9 +446,40 @@ belum ada
 ---------------------------------------------------------------------------------------------------
 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
 
+    AuthenticationForm adalah form bawaan Django yang digunakan untuk login, lengkap dengan field username dan password, serta validasi otomatis.
+
+    Kelebihan:
+    Hemat waktu, tidak perlu membuat form manual.
+    Terintegrasi langsung dengan sistem autentikasi Django.
+    Keamanan password sudah ditangani.
+
+    Kekurangan:
+    Tidak fleksibel untuk login dengan field khusus (misalnya email).
+    Tampilan default sangat sederhana sehingga biasanya perlu dikustomisasi.
+
+
 2. Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+    Autentikasi: verifikasi identitas (apakah user valid).
+    Otorisasi: pengecekan hak akses (apa yang boleh dilakukan user).
+
+    Pada Django:
+    Autentikasi: authenticate(), login(), AuthenticationForm.
+    Otorisasi: permissions, groups, decorator @login_required.
 
 3. Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+    Kelebihan cookies 
+    -Data disimpan di sisi client.
+    -Cocok untuk informasi kecil (misalnya last_login).
+    Kekurangan cookies
+    -Kapasitas terbatas.
+    -Mudah dimanipulasi jika tidak diamankan.
+
+    Kelebihan Session
+    -Data disimpan di server → lebih aman.
+    -Bisa menyimpan data yang lebih kompleks.
+    Kekurangan session
+    -Membutuhkan penyimpanan server.
+    -Jika tidak dikelola, bisa menambah beban server.
 
 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
 
