@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -7,6 +8,10 @@ class Product(models.Model):
     thumbnail = models.URLField(default="https://via.placeholder.com/150")
     category = models.CharField(max_length=100)
     is_featured = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
+
+
+
     
     # opsional: stock dan brand
     stock = models.IntegerField(default=0)

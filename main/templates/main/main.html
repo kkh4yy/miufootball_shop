@@ -37,16 +37,27 @@
     <h5>Gear up for glory—kits, boots, and pro training gear in one place.</h5>
     <p>Made by: {{ name }}</p>
     <p>Class: {{ class_name }}</p>
+    <h1>Add New Product</h1>
+    <a href="{% url 'main:add_product' %}" class="btn">Add New Product</a>
+    <a href="{% url 'main:logout' %}">
+      <button>Logout</button>
+    </a>
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+    <a href="?filter=all">
+        <button type="button">All Articles</button>
+    </a>
+    <a href="?filter=my">
+        <button type="button">My Articles</button>
+    </a> 
     <!-- see product detail button -->
      {% for product in product_list %}
         <h2>{{ product.name }}</h2>
         <p>Price: ${{ product.price }}</p>
         <a href="{% url 'main:product_detail' product.id %}"class="btn">See Details</a>>
         <br><br>
-     {% endfor %}
-      <h1>Add New Product</h1>
 
-      <a href="{% url 'main:add_product' %}" class="btn">Add New Product</a>
+     {% endfor %}
+
 
       
   </body>

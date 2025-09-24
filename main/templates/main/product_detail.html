@@ -30,4 +30,11 @@
     <a href="{% url 'main:product_list' %}">Kembali ke daftar</a>
   </p>
 </article>
+{% if product.user %}
+    <p>Author: {{ product.user.username }}</p>
+{% else %}
+    <p>Author: Anonymous</p>
+{% endif %}
+
+{% endblock content %}
 {% endblock %} 

@@ -441,3 +441,15 @@ TUGAS 2
 
 6. Apakah ada feedback untuk asdos di tutorial 2 yang sudah kalian kerjakan?
 belum ada 
+
+
+---------------------------------------------------------------------------------------------------
+1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
+
+2. Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+
+3. Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+
+4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
