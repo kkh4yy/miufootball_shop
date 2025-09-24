@@ -4,13 +4,14 @@
     <title>MiuFootball Shop</title>
     <style>
         body {
-          font-family:  Comic Sans, Helvetica, sans-serif; 
+          background-color: antiquewhite;
+          font-family:  Times New Roman, Helvetica, sans-serif; 
         }
         h1 {
-          font-family: "Courier New", monospace; 
+          font-family: "Times New Roman", monospace; 
         }
         h5 {
-            font-family: "Courier New", monospace; 
+            font-family: "Times New Roman", monospace; 
             font-style: italic;            
         }
         p {
@@ -19,15 +20,15 @@
         /* button style adjusment */
         .btn {
           display: inline-block;
-          padding: 10px 20px;
-          background-color: #FF69B4;
-          color: white;
+          padding: 5px 10px;
+          background-color: #f0d6e3;
+          color: rgb(0, 0, 0);
           text-decoration: none;
           border-radius: 5px;
           margin-top: 20px;
         }
         .btn:hover {
-          background-color: #FF1493;
+          background-color: #e0a6c3;
         }
       </style>
   </head>
@@ -37,6 +38,16 @@
     <p>Made by: {{ name }}</p>
     <p>Class: {{ class_name }}</p>
     <!-- see product detail button -->
-    <a href="{% url 'main:product_list' %}" class="btn">See Products</a>
+     {% for product in product_list %}
+        <h2>{{ product.name }}</h2>
+        <p>Price: ${{ product.price }}</p>
+        <a href="{% url 'main:product_detail' product.id %}"class="btn">See Details</a>>
+        <br><br>
+     {% endfor %}
+      <h1>Add New Product</h1>
+
+      <a href="{% url 'main:add_product' %}" class="btn">Add New Product</a>
+
+      
   </body>
 </html>

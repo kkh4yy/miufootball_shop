@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Daftar Produk{% endblock %}
+
+{% block content %}
+    <h2>Daftar Produk</h2>
+
+    <!-- add button -->
+    <a href="{% url 'main:add_product' %}" class="btn">+ Tambah Produk</a>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                <strong>{{ product.name }}</strong> - Rp{{ product.price }}<br>
+                {{ product.description }}<br>
+                <img src="{{ product.thumbnail }}" alt="{{ product.name }}" width="150"><br>
+                Kategori: {{ product.category }} | Unggulan: {{ product.is_featured }}<br>
+
+                <!-- detail button -->
+                <a href="{% url 'main:product_detail' product.id %}">Lihat Detail</a>
+            </li>
+        {% empty %}
+            <li>Belum ada produk.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
