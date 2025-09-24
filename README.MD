@@ -482,5 +482,27 @@ belum ada
     -Jika tidak dikelola, bisa menambah beban server.
 
 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+    Cookies tidak sepenuhnya aman secara bawaan, sehingga ada beberapa potensi risiko, seperti:
+    -XSS (Cross-Site Scripting): cookie dapat dicuri melalui penyisipan script berbahaya.
+    -Session hijacking: jika session ID yang tersimpan di cookie dicuri, penyerang bisa masuk sebagai pengguna sah.
+    -Manipulasi data: karena cookie berada di sisi client, nilainya bisa diubah secara manual.
 
+    Django mengantisipasi hal ini dengan cara:
+    -Memberikan flag HttpOnly agar cookie tidak dapat diakses lewat JavaScript.
+    -Menyediakan opsi Secure supaya cookie hanya dikirim melalui HTTPS.
+    -Menggunakan CSRF token untuk melindungi request dari pemalsuan.
+    -Mengandalkan Session framework, di mana data disimpan di server dan cookie hanya menyimpan ID session.
+    
 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+    1. Tambahkan tiga view di views.py: register, login_user, dan logout_user. Gunakan UserCreationForm untuk pendaftaran dan AuthenticationForm untuk proses login.
+    2. Siapkan template register.html dan login.html yang menampilkan form registrasi dan login.
+    3. Daftarkan path/route di urls.py supaya ketiga view tersebut dapat diakses dari browser.
+    4. Di models.py tambahkan relasi ke user pada model produk:
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    lalu jalankan python manage.py makemigrations dan python manage.py migrate.
+    5. Pada main.html tambahkan tombol Logout dan tampilkan informasi user yang sedang aktif ({{ user.username }}) serta nilai last_login.
+    6. Saat membuat produk baru, set product.user = request.user sebelum memanggil product.save() agar produk tersambung ke akun pembuatnya.
+    7. Buat dua akun melalui halaman register, lalu login ke masing-masing akun dan tambahkan 3 produk dummy per akun untuk pengujian.
+    8. Saat login, simpan cookie last_login lewat response.set_cookie('last_login', str(datetime.datetime.now())); hapus cookie tersebut ketika melakukan logout.
+    9. Pastikan view halaman utama (show_main) mem-filter query sehingga hanya menampilkan produk milik request.user (bukan semua produk).
+    10. Commit perubahan ke git dan push ke repository GitHub (git add → git commit → git push).

@@ -1,40 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}Rincian Produk: {{ product.name }}{% endblock %}
+{% block title %}
+  Rincian Produk: {{ product.name }}
+{% endblock title %}
 
 {% block content %}
-<article style="max-width:760px;">
-  <header>
-    <h2>{{ product.name }}</h2>
-  </header>
+  <article style="max-width:760px;">
+    <header>
+      <h2>{{ product.name }}</h2>
+    </header>
 
-  <figure style="margin:0 0 16px;">
-    <img src="{{ product.thumbnail }}" alt="Gambar {{ product.name }}" style="max-width:240px;height:auto;border:1px solid #e5e5e5;border-radius:6px;">
-  </figure>
+    <figure style="margin:0 0 16px;">
+      <img src="{{ product.thumbnail }}" alt="Gambar {{ product.name }}"
+           style="max-width:240px;height:auto;border:1px solid #e5e5e5;border-radius:6px;">
+    </figure>
 
-  <dl style="margin:0;">
-    <dt>Harga</dt>
-    <dd>Rp {{ product.price }}</dd>
+    <dl style="margin:0;">
+      <dt>Harga</dt>
+      <dd>Rp {{ product.price }}</dd>
 
-    <dt>Kategori</dt>
-    <dd>{{ product.category }}</dd>
+      <dt>Kategori</dt>
+      <dd>{{ product.category }}</dd>
 
-    <dt>Unggulan</dt>
-    <dd>{{ product.is_featured|yesno:"Ya,Tidak" }}</dd>
+      <dt>Unggulan</dt>
+      <dd>{{ product.is_featured|yesno:"Ya,Tidak" }}</dd>
 
-    <dt>Deskripsi</dt>
-    <dd>{{ product.description }}</dd>
-  </dl>
+      <dt>Deskripsi</dt>
+      <dd>{{ product.description }}</dd>
+    </dl>
 
-  <p style="margin-top:16px;">
-    <a href="{% url 'main:product_list' %}">Kembali ke daftar</a>
-  </p>
-</article>
-{% if product.user %}
+    <p style="margin-top:16px;">
+      <a href="{% url 'main:product_list' %}">Kembali ke daftar</a>
+    </p>
+  </article>
+
+  {% if product.user %}
     <p>Author: {{ product.user.username }}</p>
-{% else %}
+  {% else %}
     <p>Author: Anonymous</p>
-{% endif %}
-
+  {% endif %}
 {% endblock content %}
-{% endblock %} 

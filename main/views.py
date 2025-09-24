@@ -32,7 +32,7 @@ def show_main(request):
         'last_login': request.COOKIES.get('last_login', 'Never')
     }
 
-    return render(request, 'main/main.html', context)
+    return render(request, 'main.html', context)
 
 @login_required(login_url='/login')
 def create_product(request):
@@ -81,14 +81,14 @@ def add_product(request):
             return redirect('main:show_main')
     else:
         form = ProductForm()
-    return render(request, 'main/add_product.html', {'form': form})
+    return render(request, 'add_product.html', {'form': form})
 
 def product_list(request):
     products = Product.objects.all()
-    return render(request, 'main/product_list.html', {'products': products})
+    return render(request, 'product_list.html', {'products': products})
 
 def product_detail(request, id):
-    return render(request, "main/product_detail.html", {"product":get_object_or_404(Product, pk=id)})
+    return render(request, "product_detail.html", {"product":get_object_or_404(Product, pk=id)})
 
 def register(request):
     form = UserCreationForm()
