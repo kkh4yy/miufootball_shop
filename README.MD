@@ -343,7 +343,7 @@ Jawaban:
 Jawaban: belum ada
 
 ---------------------------------------------------------------------------------------------------
-TUGAS 2
+TUGAS 3
 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
     Memisahkan lapisan sistem (decoupling) sehingga frontend dan backend dapat berkembang mandiri tanpa saling mengganggu.
 
@@ -444,6 +444,7 @@ belum ada
 
 
 ---------------------------------------------------------------------------------------------------
+Tugas 4
 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
 
     AuthenticationForm adalah form bawaan Django yang digunakan untuk login, lengkap dengan field username dan password, serta validasi otomatis.
@@ -506,3 +507,72 @@ belum ada
     8. Saat login, simpan cookie last_login lewat response.set_cookie('last_login', str(datetime.datetime.now())); hapus cookie tersebut ketika melakukan logout.
     9. Pastikan view halaman utama (show_main) mem-filter query sehingga hanya menampilkan produk milik request.user (bukan semua produk).
     10. Commit perubahan ke git dan push ke repository GitHub (git add → git commit → git push).
+
+    ----------------------------------------------------------------------------------
+    Tugas 5
+1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+    - Paling kuat → paling lemah: 
+    1. Deklarasi dengan !important
+    2. Inline style (mis. <h1 style="…">)
+    3. ID selector (#id)
+    4. Class / attribute / pseudo-class (.btn, [type="text"], :hover, :focus)
+    5. Element / pseudo-element (h1, p, ::after)
+    - Jika specificity sama, aturan yang ditulis paling akhir di file CSS yang diterapkan.
+
+
+2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+    - Penting karena perangkat pengguna beragam (mobile, tablet, desktop) sehingga tampilan harus tetap terbaca, mudah diklik, dan tidak perlu geser horizontal.
+    - Dampak positif: meningkatkan keterbacaan, pengalaman pengguna, SEO, dan konversi.
+    - Contoh sudah responsif: Tokopedia, Gojek, Wikipedia (navigasi menyesuaikan; grid kolom berubah di layar kecil).
+    - Contoh kurang responsif: situs lama berlebar tetap 960–1024 px atau halaman dengan tabel melebar tanpa pengaturan; di ponsel butuh zoom/geser sehingga sulit digunakan.
+
+
+3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+
+    - Margin: ruang di luar border untuk memisahkan elemen dari elemen lain.
+    - Border: garis tepi yang membungkus elemen (antara padding dan margin).
+    - Padding: ruang di dalam border untuk memberi jarak antara konten dan tepi.
+    - Contoh:
+    .kotak {
+        margin: 16px;              /* ruang luar */
+        border: 2px solid #e5e7eb; /* garis tepi */
+        padding: 12px 16px;        /* ruang dalam (atas/bawah 12, kiri/kanan 16) */
+    }
+    - Catatan: margin vertikal dapat “collapse” (menyatu) antar blok; padding tidak.
+
+4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+    - Flexbox: tata letak satu dimensi (baris ATAU kolom). Cocok untuk navbar, toolbar, baris tombol, atau deretan kartu yang bisa membungkus.
+    Contoh singkat: 
+        .toolbar { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    - CSS Grid: tata letak dua dimensi (baris DAN kolom). Cocok untuk galeri/produk, dashboard, layout halaman.
+    Contoh singkat:
+        .grid-produk { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:16px; }
+    - Inti beda: Flex fokus pada satu sumbu; Grid mengatur dua sumbu sekaligus.
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+    - Model & Form:
+    - Pastikan model Product memiliki name, price, stock, image, description, (opsional) user.
+    - Buat ProductForm (ModelForm) untuk validasi dan binding data.
+    - Routing & Views:
+    - Tambahkan URL list, detail/<id>, add, edit/<id>, delete/<id>.
+    - Create/Edit: proses POST → valid → simpan; tampilkan umpan balik melalui messages.
+    - Delete: sediakan halaman konfirmasi; hapus pada POST.
+    - Lindungi aksi edit/hapus dengan login_required dan (bila ada) cek kepemilikan product.
+    - UI & Desain:
+    - Gunakan Tailwind (CDN) + global.css untuk gaya konsisten (input, fokus, spacing).
+    - Navbar responsif: versi desktop menampilkan menu penuh; versi mobile memakai tombol hamburger.
+    - Daftar produk:
+        - Empty state: jika belum ada data, tampilkan ilustrasi + tombol “Tambah Produk”.
+        - Card grid: jika ada data, tampilkan kartu berisi gambar, nama, harga, stok, ringkasan deskripsi.
+        - Tiap kartu memiliki dua tombol: Edit dan Hapus (hapus via form POST + csrf + confirm).
+    - Halaman form (Tambah/Edit): satu templat, menampilkan error per field agar mudah diperbaiki.
+    - Halaman detail: gambar utama, harga (tegas), stok, deskripsi, serta tombol Edit/Hapus (bila berhak) dan Kembali.
+    - Static & Media:
+    - Atur MEDIA_URL dan MEDIA_ROOT agar unggah gambar produk berfungsi di pengembangan.
+    - Simpan no-products.png pada static/image untuk empty state.
+    - Uji & Rilis:
+    - Uji pada berbagai lebar layar (DevTools → Toggle device).
+    - Periksa aksesibilitas dasar (alt text, kontras, ukuran tombol).
+    - Versi kontrol: git add → commit → push ke GitHub (opsional buka PR).
+
+

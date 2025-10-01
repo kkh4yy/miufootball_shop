@@ -122,3 +122,34 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+# bikin satu function baru di views, namanya add_employee, untuk nambahin satu Employee baru dengan field:
+# name nya nama kamu, age nya bebas, persona nya bebas
+#return nya pakai HttpResponse aja biar keliatan
+
+def add_employee(request):
+    emp =  employee.objects.create(
+    name = "Khayra Tazkiya",
+    age = 18,
+    persona = "Pacil",
+    )
+
+    return HttpResponse("employee berhasil dibuat")
+
+def edit_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    form = ProductForm(request.POST or None, instance=product)
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        return redirect('main:show_main')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

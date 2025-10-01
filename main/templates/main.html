@@ -1,64 +1,59 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>MiuFootball Shop</title>
-    <style>
-        body {
-          background-color: antiquewhite;
-          font-family:  Times New Roman, Helvetica, sans-serif; 
-        }
-        h1 {
-          font-family: "Times New Roman", monospace; 
-        }
-        h5 {
-            font-family: "Times New Roman", monospace; 
-            font-style: italic;            
-        }
-        p {
-          font-size: 19px; 
-        }
-        /* button style adjusment */
-        .btn {
-          display: inline-block;
-          padding: 5px 10px;
-          background-color: #f0d6e3;
-          color: rgb(0, 0, 0);
-          text-decoration: none;
-          border-radius: 5px;
-          margin-top: 20px;
-        }
-        .btn:hover {
-          background-color: #e0a6c3;
-        }
-      </style>
-  </head>
-  <body>
-    <h1>Welcome to {{ app_name }}!</h1>
-    <h5>Gear up for glory—kits, boots, and pro training gear in one place.</h5>
-    <p>Made by: {{ name }}</p>
-    <p>Class: {{ class_name }}</p>
-    <h1>Add New Product</h1>
-    <a href="{% url 'main:add_product' %}" class="btn">Add New Product</a>
-    <a href="{% url 'main:logout' %}">
-      <button>Logout</button>
-    </a>
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
-    <a href="?filter=all">
-        <button type="button">All Articles</button>
-    </a>
-    <a href="?filter=my">
-        <button type="button">My Articles</button>
-    </a> 
-    <!-- see product detail button -->
-     {% for product in product_list %}
-        <h2>{{ product.name }}</h2>
-        <p>Price: ${{ product.price }}</p>
-        <a href="{% url 'main:product_detail' product.id %}"class="btn">See Details</a>>
-        <br><br>
+{% extends 'base.html' %}
+{% load static %}
 
-     {% endfor %}
+{% block meta %}
+<title>Football Product</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="bg-gray-50 w-full pt-16 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Header Section -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Latest Football Product</h1>
+      <p class="text-gray-600">Stay updated with the latest football stories and analysis</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+      <div class="flex space-x-3 mb-4 sm:mb-0">
+        <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-green-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-green-600 hover:text-white">
+          All Product
+        </a>
+        <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-green-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-green-600 hover:text-white">
+          My Product
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="text-sm text-gray-500">
+          Last login: {{ last_login }}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Grid -->
+    {% if not product_list %}
+      <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+        <div class="w-32 h-32 mx-auto mb-4">
+          <img src="{% static 'image/no-product.png' %}" alt="No product available" class="w-full h-full object-contain">
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No product found</h3>
+        <p class="text-gray-500 mb-6">Be the first to share football product with the community.</p>
+        <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+          Create Product
+        </a>
+      </div>
+    {% else %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for product in product_list %}
+          {% include 'card_product.html' with product=product %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}
 
 
-      
-  </body>
-</html>
