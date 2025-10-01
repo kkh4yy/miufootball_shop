@@ -153,3 +153,14 @@ def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)
     product.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+@login_required(login_url='/login')
+def show_product(request, id):
+    news = get_object_or_404(Product, pk=id)
+    news.increment_views()
+
+    context = {
+        'news': news
+    }
+
+    return render(request, "product_detail.html", context)

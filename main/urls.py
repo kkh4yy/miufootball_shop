@@ -1,29 +1,34 @@
+# main/urls.py
 from django.urls import path
-from .views import (
-    show_main,
-    create_product, 
-    product_detail,
-    show_xml, show_json,
-    show_xml_by_id, show_json_by_id,
-    add_product, product_list, register, login_user, logout_user, edit_product, delete news
-)
-app_name="main"
+from . import views  # <-- ini kuncinya: kita impor modul views
+
+app_name = "main"
+
 urlpatterns = [
-    path('', show_main, name='show_main'),
-    path("add/", create_product, name="create_product"),
-    path("detail/<int:pk>/", product_detail, name="product_detail"),
-    path("xml/", show_xml, name="show_xml"),
-    path("json/", show_json, name="show_json"),
-    path("xml/<int:id>/", show_xml_by_id, name="show_xml_by_id"),
-    path("json/<int:id>/", show_json_by_id, name="show_json_by_id"),
-    path('products/add/', add_product, name="add_product"),
-    path("products/", product_list, name="product_list"),
-    path("products/<int:id>/", product_detail, name="product_detail"),
-    path('register/', register, name='register'),
-    path('login/', login_user, name='login'),
-    path('logout/', logout_user, name='logout'),
-    path("add_employee", view.employee , name= "add_employee" ),
-    path('news/<uuid:id>/edit', edit_product, name='edit_product'),
-    path('news/<uuid:id>/delete', delete_news, name='delete_news'),
-    
+    # Home / daftar produk
+    path("", views.show_main, name="show_main"),
+    path("products/", views.product_list, name="product_list"),
+
+    # CRUD Product (pilih salah satu: create_product ATAU add_product)
+    path("products/add/", views.create_product, name="create_product"),
+    # Kalau di views kamu adanya add_product, pakai baris ini dan hapus baris di atas:
+    # path("products/add/", views.add_product, name="add_product"),
+
+    path("products/<int:id>/", views.product_detail, name="product_detail"),
+    path("products/<int:id>/edit/", views.edit_product, name="edit_product"),
+    path("products/<int:id>/delete/", views.delete_product, name="delete_product"),
+
+    # Data delivery (XML/JSON)
+    path("xml/", views.show_xml, name="show_xml"),
+    path("json/", views.show_json, name="show_json"),
+    path("xml/<int:id>/", views.show_xml_by_id, name="show_xml_by_id"),
+    path("json/<int:id>/", views.show_json_by_id, name="show_json_by_id"),
+
+    # Auth
+    path("register/", views.register, name="register"),
+    path("login/", views.login_user, name="login"),
+    path("logout/", views.logout_user, name="logout"),
+
+    # OPSIONAL: aktifkan hanya kalau DI views.py kamu memang ada fungsi employee
+    # path("add_employee/", views.employee, name="add_employee"),
 ]
