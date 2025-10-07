@@ -1,6 +1,7 @@
 # main/urls.py
 from django.urls import path
 from . import views  # <-- ini kuncinya: kita impor modul views
+from main.views import add_product_entry_ajax
 
 app_name = "main"
 
@@ -14,7 +15,8 @@ urlpatterns = [
     # Kalau di views kamu adanya add_product, pakai baris ini dan hapus baris di atas:
     # path("products/add/", views.add_product, name="add_product"),
 
-    path("products/<int:id>/", views.product_detail, name="product_detail"),
+    path("products/<int:id>/", views.show_product, name="show_product"),
+    path("products/<int:id>/detail/", views.product_detail, name="product_detail"),
     path("products/<int:id>/edit/", views.edit_product, name="edit_product"),
     path("products/<int:id>/delete/", views.delete_product, name="delete_product"),
 
@@ -31,4 +33,6 @@ urlpatterns = [
 
     # OPSIONAL: aktifkan hanya kalau DI views.py kamu memang ada fungsi employee
     # path("add_employee/", views.employee, name="add_employee"),
+
+    path('create-product-ajax', add_product_entry_ajax, name='add_product_entry_ajax'),
 ]

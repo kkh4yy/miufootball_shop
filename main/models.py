@@ -9,6 +9,7 @@ class Product(models.Model):
     category = models.CharField(max_length=100)
     is_featured = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
+    
 
 
 
