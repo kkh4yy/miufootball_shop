@@ -22,7 +22,7 @@
             <!-- Header -->
             <div class="p-6 sm:p-8">
                 <div class="flex flex-wrap items-center gap-2 mb-4">
-                    <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white">
+                    <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-purple-500 text-white">
                         {{ product.get_category_display }}
                     </span>
                     {% if product.is_featured %}
@@ -45,7 +45,6 @@
                     <time datetime="{{ product.created_at|date:'c' }}">
                         {{ product.created_at|date:"M j, Y g:i A" }}
                     </time>
-                    <span>{{ product.product_views }} views</span>
                 </div>
             </div>
 
@@ -53,7 +52,7 @@
             {% if product.thumbnail %}
                 <div class="px-6 sm:px-8">
                     <img src="{{ product.thumbnail }}" 
-                         alt="{{ ne.title }}" 
+                         alt="{{ product.title }}" 
                          class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg">
                 </div>
             {% endif %}
