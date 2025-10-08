@@ -34,5 +34,5 @@ urlpatterns = [
     # OPSIONAL: aktifkan hanya kalau DI views.py kamu memang ada fungsi employee
     # path("add_employee/", views.employee, name="add_employee"),
 
-    path('create-product-ajax', add_product_entry_ajax, name='add_product_entry_ajax'),
+    path('create-product-ajax',views.add_product_entry_ajax, name='add_product_entry_ajax'),
 ]

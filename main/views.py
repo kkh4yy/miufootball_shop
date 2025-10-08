@@ -13,6 +13,8 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
+from django.utils.html import strip_tags
+from .models import Employee
 
 from .models import Product
 from .forms import ProductForm
@@ -62,22 +64,22 @@ def show_xml(request):
     return HttpResponse(data, content_type='application/xml')
 
 def show_json(request):
-    product_list = Product.objects.all()
+    products = Product.objects.all().select_related('user')
     data = [
         {
-            'id': str(product.id),
-            'title': product.title,
-            'content': product.content,
-            'category': product.category,
-            'thumbnail': product.thumbnail,
-            'product_views': product.product_views,
-            'created_at': product.created_at.isoformat() if product.created_at else None,
-            'is_featured': product.is_featured,
-            'user_id': product.user_id,
-        }
-        for product in product_list
+            "id": p.id,
+            "name": p.name,
+            "price": p.price,
+            "description": p.description,
+            "thumbnail": p.thumbnail,
+            "category": p.category,
+            "is_featured": p.is_featured,
+            "stock": p.stock,
+            "brand": p.brand,
+            "user_id": p.user_id,
+            # kalau ada created_at: "created_at": p.created_at.isoformat() if p.created_at else None,
+        } for p in products
     ]
-
     return JsonResponse(data, safe=False)
 
 def show_xml_by_id(request, id):
@@ -90,7 +92,7 @@ def show_json_by_id(request, product_id):
         product = Product.objects.select_related('user').get(pk=product_id)
         data = {
             'id': str(product.id),
-            'title': product.title,
+            'name': product.name,
             'content': product.content,
             'category': product.category,
             'thumbnail': product.thumbnail,
@@ -160,7 +162,7 @@ def logout_user(request):
 #return nya pakai HttpResponse aja biar keliatan
 
 def add_employee(request):
-    emp =  employee.objects.create(
+    emp =  Employee.objects.create(
     name = "Khayra Tazkiya",
     age = 18,
     persona = "Pacil",
@@ -200,21 +202,55 @@ def show_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    title = request.POST.get("title")
-    content = request.POST.get("content")
-    category = request.POST.get("category")
-    thumbnail = request.POST.get("thumbnail")
-    is_featured = request.POST.get("is_featured") == 'on'  # checkbox handling
-    user = request.user
+    # Ambil data dari form (nama field dari frontend)
+    name = request.POST.get("name", "").strip()              # -> Product.name
+    content = request.POST.get("content", "").strip()          # -> Product.description
+    price = request.POST.get("price", "").strip()              # WAJIB
+    category = request.POST.get("category", "").strip()
+    thumbnail = request.POST.get("thumbnail", "").strip() or "https://via.placeholder.com/150"
+    is_featured = request.POST.get("is_featured") in ("on", "true", "1")
+    stock = request.POST.get("stock", "0").strip()
+    brand = request.POST.get("brand", "").strip()
 
-    new_product = Product(
-        title=title, 
-        content=content,
+    # Sanitasi sederhana biar aman dari XSS text
+    name = strip_tags(name)
+    content = strip_tags(content)
+    brand = strip_tags(brand)
+    category = strip_tags(category)
+
+    # Validasi minimal
+    if not name or not price:
+        return JsonResponse({"detail": "Nama (title) dan price wajib diisi."}, status=400)
+
+    try:
+        price = int(price)
+        stock = int(stock or 0)
+    except ValueError:
+        return JsonResponse({"detail": "price/stock harus berupa angka."}, status=400)
+
+    # Simpan ke model Product (peta field yang benar)
+    product = Product.objects.create(
+        name=name,
+        description=content,
+        price=price,
         category=category,
         thumbnail=thumbnail,
         is_featured=is_featured,
-        user=user
+        stock=stock,
+        brand=brand,
+        user=request.user if request.user.is_authenticated else None,
     )
-    new_product.save()
 
-    return HttpResponse(b"CREATED", status=201)
+    # Balikkan JSON supaya frontend bisa refresh tanpa reload
+    return JsonResponse({
+        "id": product.id,
+        "name": product.name,
+        "description": product.description,
+        "price": product.price,
+        "category": product.category,
+        "thumbnail": product.thumbnail,
+        "is_featured": product.is_featured,
+        "stock": product.stock,
+        "brand": product.brand,
+        "user_id": product.user_id,
+    }, status=201)

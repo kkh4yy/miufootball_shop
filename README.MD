@@ -23,7 +23,7 @@ Jawaban :
     wsgi.py
     asgi.py
 
-    2. membuat aplikasi bernama main
+   2. membuat aplikasi bernama main
     saya menambahkan aplikasi utama bernama main dan mendaftarkannya ke proyek.
 
     python manage.py startapp main
@@ -575,4 +575,63 @@ Tugas 4
     - Periksa aksesibilitas dasar (alt text, kontras, ukuran tombol).
     - Versi kontrol: git add → commit → push ke GitHub (opsional buka PR).
 
+---------------------------------------------------------------------
+Tugas 6
+----------------------------------------------------------------------
+1. Apa perbedaan antara synchronous request dan asynchronous request?
 
+    Synchronous (sinkron) berarti setiap permintaan dari pengguna akan diproses satu per satu secara berurutan. Browser akan menunggu respons dari server sebelum melanjutkan proses berikutnya. Akibatnya, jika server lambat, tampilan web bisa terasa berhenti atau tidak responsif.
+
+    Asynchronous (asinkron) berarti permintaan dapat dijalankan di latar belakang tanpa harus menghentikan proses lain. Browser tetap bisa digunakan sambil menunggu respons dari server. Inilah yang dilakukan oleh AJAX, biasanya menggunakan fetch() atau async/await, sehingga tampilan web tetap interaktif dan cepat.
+
+    Kesimpulan :
+    Sinkron = menunggu dulu baru lanjut
+    Asinkron = lanjut sambil nunggu
+
+2. Bagaimana AJAX bekerja di Django (alur request–response)?
+    -Frontend (JavaScript):
+
+    Pengguna melakukan aksi (misalnya klik tombol atau kirim form).
+    JavaScript menangkap event itu lalu mengirim request ke server menggunakan fetch().
+    Sambil menunggu, web bisa menampilkan animasi loading atau pesan tertentu.
+    Setelah server membalas dalam bentuk JSON, JavaScript akan memproses data tersebut dan menampilkannya di halaman tanpa perlu reload.
+
+    -Backend (Django):
+    Django menerima request dari frontend.
+    View memproses data yang diterima (misalnya menyimpan ke database atau mengambil data).
+    Django mengirimkan respons dalam format JSON menggunakan JsonResponse.
+    Data tersebut kemudian dikirim kembali ke frontend untuk diperbarui secara dinamis.
+    Dengan alur seperti ini, halaman web tidak perlu di-refresh setiap kali terjadi perubahan data, karena pembaruan terjadi secara real-time di sisi klien.
+
+
+3. Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+
+    Tidak perlu reload halaman setiap kali melakukan aksi.
+    Lebih cepat dan ringan, karena hanya data yang dikirim, bukan seluruh halaman HTML.
+    Pengalaman pengguna lebih baik, misalnya dengan menampilkan modal, notifikasi (toast), atau animasi loading.
+    Tampilan lebih interaktif, data bisa diperbarui langsung tanpa berpindah halaman.
+    Menghemat bandwidth dan waktu, karena komunikasi data lebih efisien.
+    Sementara itu, render biasa cocok untuk halaman statis yang tidak perlu interaksi dinamis.
+
+4. Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+    Untuk menjaga keamanan saat menggunakan AJAX, perlu diperhatikan hal-hal berikut:
+    -Gunakan CSRF Token:
+    Django menyediakan proteksi bawaan untuk mencegah serangan CSRF. Pastikan setiap permintaan POST mengirim header X-CSRFToken.
+    -Validasi Input di Server:
+    Jangan pernah percaya data dari pengguna. Semua data harus divalidasi dan dibersihkan menggunakan fungsi seperti strip_tags() untuk mencegah XSS.
+    -Gunakan Sistem Otentikasi Django:
+    Django sudah memiliki sistem login dan penyimpanan password yang aman (menggunakan hashing dan session).
+    -Gunakan HTTPS di Produksi:
+    Agar data, terutama password, tidak bisa disadap oleh pihak luar.
+    -Berikan Respons yang Aman:
+    Jangan menampilkan pesan error detail yang bisa dimanfaatkan oleh penyerang. Cukup berikan pesan umum seperti “Login gagal” atau “Data tidak valid”.
+    Dengan langkah-langkah ini, proses login dan register lewat AJAX bisa tetap aman seperti metode konvensional.
+
+5. Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+    AJAX membuat website terasa lebih modern, cepat, dan interaktif karena:
+    Aksi terasa instan: tidak perlu menunggu halaman dimuat ulang.
+    Tampilan tetap utuh: pengguna tetap di halaman yang sama meskipun data berubah.
+    Ada umpan balik visual: bisa menampilkan toast untuk notifikasi sukses atau gagal.
+    Ada loading, error, dan empty state yang membuat interaksi terasa alami dan jelas.
+    Modal form lebih praktis: pengguna bisa menambah, mengedit, atau menghapus data langsung dari halaman utama.
+    Secara keseluruhan, penggunaan AJAX membuat aplikasi web terasa seperti aplikasi modern — cepat, responsif, dan nyaman digunakan.

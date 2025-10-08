@@ -128,8 +128,9 @@
     
     // Correctly using the Django URL tag in JavaScript
     const detailLink = `{% url 'main:show_product' 0 %}`.replace('0', productItem.id);
-    const editLink = `{% url 'main:edit_product' 0 %}`.replace('0', productItem.id);
-    const deleteLink = `{% url 'main:delete_product' 0 %}`.replace('0', productItem.id);
+  const editLink = `{% url 'main:edit_product' 0 %}`.replace('0', productItem.id);
+  const deleteLink = `{% url 'main:delete_product' 0 %}`.replace('0', productItem.id);
+
 
     const formattedDate = new Date(productItem.created_at).toLocaleDateString('en-US', { 
       year: 'numeric', 
